@@ -1,0 +1,16 @@
+<Configuration status="error" stxmlns="http://logging.apache.org/log4j/2.0/config">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss:SSS} [%t] [%level] - %msg%n"/>
+        </Console>
+<!--        <File name="File" fileName="src/main/resources/logs/log">-->
+<!--            <PatternLayout pattern="%d{HH:mm:ss} [%t] [%level] - %msg%n"/>-->
+<!--        </File>-->
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+<!--            <AppenderRef ref="File"/>-->
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>
