@@ -4,7 +4,6 @@ import br.com.duyllyan.reservaconsultas.model.entities.Paciente;
 import br.com.duyllyan.reservaconsultas.model.service.EnderecoService;
 import br.com.duyllyan.reservaconsultas.model.service.PacienteService;
 import br.com.duyllyan.reservaconsultas.model.service.factory.ServiceFactory;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +20,7 @@ public class PacienteServiceTest {
 
     Paciente paciente1;
     Paciente paciente2;
+    Paciente paciente3;
 
     @BeforeEach
     void prepareConnection() {
@@ -35,13 +35,16 @@ public class PacienteServiceTest {
         endereco2 = new Endereco("Rua Tulipa", 22, "Jardim das Flores", "Araguaína", "TO");
 
         paciente1 = new Paciente("Willian", "Neres", "12345", new Date(), endereco1);
-        paciente2 = new Paciente("Duyllyan", "Almeida", "54987", new Date(), endereco2);
+        paciente2 = new Paciente("Duyllyan", "Almeida", "54987", new Date(), endereco1);
+        paciente3 = new Paciente("Inês", "Brasil", "0000", new Date(), endereco2);
 
         enderecoService.insertEndereco(endereco1);
         enderecoService.insertEndereco(endereco2);
 
         pacienteService.insertPaciente(paciente1);
         pacienteService.insertPaciente(paciente2);
+        pacienteService.insertPaciente(paciente3);
+
         assertEquals(2, pacienteService.selectPacienteByID(2).getId());
     }
 
@@ -54,7 +57,7 @@ public class PacienteServiceTest {
 
     @Test
     void searchAll() {
-        System.out.println(pacienteService.selectAllPaciente());
-        assertEquals(1, pacienteService.selectAllPaciente().size());
+        pacienteService.selectAllPaciente().forEach(System.out::println);
+        assertEquals(2, pacienteService.selectAllPaciente().size());
     }
 }
