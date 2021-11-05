@@ -68,4 +68,16 @@ public class Paciente {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Paciente{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", rg='" + rg + '\'' +
+                ", dataDeCadastro=" + dataDeCadastro +
+                ", endereco=" + endereco +
+                '}';
+    }
 }
