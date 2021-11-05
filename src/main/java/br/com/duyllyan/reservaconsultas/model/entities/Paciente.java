@@ -71,13 +71,10 @@ public class Paciente {
 
     @Override
     public String toString() {
-        return "Paciente{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", sobrenome='" + sobrenome + '\'' +
-                ", rg='" + rg + '\'' +
-                ", dataDeCadastro=" + dataDeCadastro +
-                ", endereco=" + endereco +
-                '}';
+        return "[Paciente: " + nome +
+                " " + sobrenome +
+                ", RG: " + rg +
+                ", Cadastrado em: " + dataDeCadastro +
+                ", Endereço: " + endereco + "]";
     }
 }

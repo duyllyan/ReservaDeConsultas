@@ -6,6 +6,7 @@ import br.com.duyllyan.reservaconsultas.model.service.EnderecoService;
 import br.com.duyllyan.reservaconsultas.model.service.PacienteService;
 import br.com.duyllyan.reservaconsultas.model.service.factory.ServiceFactory;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,9 +25,13 @@ public class PacienteServiceTest {
     Paciente paciente2;
     Paciente paciente3;
 
+    @BeforeAll
+    static void createDatabase() {
+        ClinicaDatabase.createDataBase();
+    }
+
     @BeforeEach
     void prepareConnection() {
-        ClinicaDatabase.getInstance();
         enderecoService = ServiceFactory.createEnderecoService();
         pacienteService = ServiceFactory.createPacienteService();
     }
@@ -48,6 +53,7 @@ public class PacienteServiceTest {
         pacienteService.insertPaciente(paciente3);
 
         assertEquals(2, pacienteService.selectPacienteByID(2).getId());
+        assertEquals("Duyllyan", pacienteService.selectPacienteByID(2).getNome());
     }
 
     @Test

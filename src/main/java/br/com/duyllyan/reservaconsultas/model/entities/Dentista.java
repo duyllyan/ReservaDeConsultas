@@ -50,11 +50,8 @@ public class Dentista {
 
     @Override
     public String toString() {
-        return "Dentista{" +
-                "id=" + id +
-                ", numeroMatricula=" + numeroMatricula +
-                ", nome='" + nome + '\'' +
-                ", sobrenome='" + sobrenome + '\'' +
-                '}';
+        return "[Dentista: " + nome +
+                " " + sobrenome +
+                ", Matrícula: " + numeroMatricula;
     }
 }

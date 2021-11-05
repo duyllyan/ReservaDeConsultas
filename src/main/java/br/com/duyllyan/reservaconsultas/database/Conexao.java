@@ -23,7 +23,7 @@ public class Conexao {
                 String user = props.getProperty("user");
                 String password = props.getProperty("password");
                 connection = DriverManager.getConnection(url, user, password);
-                log.info("Propriedades do banco de dados carregadas");
+                log.info("Conexão com o banco de dados estabelecida");
             } catch (SQLException e) {
                 log.error("Erro no estabelecimento da conexão com o banco de dados: " + e.getMessage());
                 throw new DatabaseException(e.getMessage());

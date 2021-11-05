@@ -8,7 +8,7 @@ public class ClinicaDatabaseTest {
 
     @Test
     void createDatabase() {
-        assertNotNull(ClinicaDatabase.getInstance());
+        ClinicaDatabase.createDataBase();
     }
 
     @AfterAll

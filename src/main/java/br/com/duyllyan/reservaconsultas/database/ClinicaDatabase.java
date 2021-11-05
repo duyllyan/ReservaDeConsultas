@@ -37,26 +37,17 @@ public class ClinicaDatabase {
             "dentista_sobrenome VARCHAR(100) NOT NULL" +
             ");";
 
-    private final Connection connection;
-    private static final ClinicaDatabase instance = new ClinicaDatabase(Conexao.getConnection());
+    private static final Connection connection = Conexao.getConnection();
 
-    private ClinicaDatabase(Connection connection) {
-        this.connection = connection;
-        createDataBase();
-    }
+    public static void createDataBase() {
 
-    public static ClinicaDatabase getInstance() {
-        return instance;
-    }
-
-    private void createDataBase() {
         createQuery(SQL_CREATE_SCHEMA, "schema clinicas");
         createQuery(SQL_CREATE_TABLE_ENDERECOS, "table enderecos");
         createQuery(SQL_CREATE_TABLE_PACIENTES, "table pacientes");
         createQuery(SQL_CREATE_TABLE_DENTISTA, "table dentistas");
     }
 
-    private void createQuery(String query, String name) {
+    private static void createQuery(String query, String name) {
         PreparedStatement statement = null;
         try {
             LOG.debug("Criando " + name);

@@ -4,6 +4,7 @@ import br.com.duyllyan.reservaconsultas.model.entities.Endereco;
 import br.com.duyllyan.reservaconsultas.model.service.EnderecoService;
 import br.com.duyllyan.reservaconsultas.model.service.factory.ServiceFactory;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,9 +16,13 @@ public class EnderecoServiceTest {
     Endereco endereco1;
     Endereco endereco2;
 
+    @BeforeAll
+    static void createDatabase() {
+        ClinicaDatabase.createDataBase();
+    }
+
     @BeforeEach
     void prepareConnection() {
-        ClinicaDatabase.getInstance();
         enderecoService = ServiceFactory.createEnderecoService();
         endereco1 = new Endereco("Rua Jasmim", 18, "Jardim das Flores", "Araguaína", "TO");
         endereco2 = new Endereco("Rua Tulipa", 22, "Jardim das Flores", "Araguaína", "TO");
