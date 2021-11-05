@@ -1,7 +1,9 @@
 import br.com.duyllyan.reservaconsultas.database.ClinicaDatabase;
+import br.com.duyllyan.reservaconsultas.database.Conexao;
 import br.com.duyllyan.reservaconsultas.model.entities.Dentista;
 import br.com.duyllyan.reservaconsultas.model.service.DentistaService;
 import br.com.duyllyan.reservaconsultas.model.service.factory.ServiceFactory;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,5 +39,10 @@ public class DentistaServiceTest {
     void getAllDentistas() {
         assertEquals(3, dentistaService.selectAllDentistas().size());
         assertEquals("Julio", dentistaService.selectAllDentistas().get(2).getNome());
+    }
+
+    @AfterAll
+    static void closeConnection() {
+        Conexao.closeConnection();
     }
 }

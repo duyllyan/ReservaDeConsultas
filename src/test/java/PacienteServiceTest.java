@@ -1,9 +1,11 @@
 import br.com.duyllyan.reservaconsultas.database.ClinicaDatabase;
+import br.com.duyllyan.reservaconsultas.database.Conexao;
 import br.com.duyllyan.reservaconsultas.model.entities.Endereco;
 import br.com.duyllyan.reservaconsultas.model.entities.Paciente;
 import br.com.duyllyan.reservaconsultas.model.service.EnderecoService;
 import br.com.duyllyan.reservaconsultas.model.service.PacienteService;
 import br.com.duyllyan.reservaconsultas.model.service.factory.ServiceFactory;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,5 +61,10 @@ public class PacienteServiceTest {
     void searchAll() {
         pacienteService.selectAllPaciente().forEach(System.out::println);
         assertEquals(2, pacienteService.selectAllPaciente().size());
+    }
+
+    @AfterAll
+    static void closeConnection() {
+        Conexao.closeConnection();
     }
 }
