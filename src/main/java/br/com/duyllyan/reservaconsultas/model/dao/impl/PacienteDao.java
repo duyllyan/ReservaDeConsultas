@@ -30,7 +30,18 @@ public class PacienteDao implements IDao<Paciente> {
             "endereco_id = ? " +
             "WHERE paciente_id = ?;";
     private final String SQL_DELETE = "DELETE FROM clinica.pacientes WHERE paciente_id = ?;";
-    private final String SQL_SELECT_BY_ID = "SELECT FROM clinica.pacientes WHERE paciente_id = ?;";
+    private final String SQL_SELECT_BY_ID = "SELECT " +
+            "p.*, " +
+            "e.endereco_rua, " +
+            "e.endereco_numero, " +
+            "e.endereco_bairro, " +
+            "e.endereco_cidade, " +
+            "e.endereco_estado, " +
+            "FROM clinica.pacientes AS p " +
+            "INNER JOIN clinica.enderecos AS e " +
+            "ON p.endereco_id = e.endereco_id " +
+            "WHERE paciente_id = ? " +
+            "ORDER BY paciente_id;";
     private final String SQL_SELECT_ALL = "SELECT " +
             "p.*, " +
             "e.endereco_rua, " +
@@ -38,9 +49,9 @@ public class PacienteDao implements IDao<Paciente> {
             "e.endereco_bairro, " +
             "e.endereco_cidade, " +
             "e.endereco_estado, " +
-            "FROM clinica.pacientes AS p" +
-            "INNER JOIN clinica.enderecos AS e" +
-            "ON p.endereco_id = e.endereco_id" +
+            "FROM clinica.pacientes AS p " +
+            "INNER JOIN clinica.enderecos AS e " +
+            "ON p.endereco_id = e.endereco_id " +
             "ORDER BY paciente_id;";
 
     private Connection connection;
@@ -91,6 +102,10 @@ public class PacienteDao implements IDao<Paciente> {
             statement.setString(3, paciente.getRg());
             statement.setDate(4, new Date(paciente.getDataDeCadastro().getTime()));
             statement.setInt(5, paciente.getEndereco().getId());
+            statement.setInt(6, paciente.getId());
+
+            statement.executeUpdate();
+
             LOG.info("O registro do paciente " + paciente.getNome() + " foi atualizado");
         } catch (SQLException e) {
             LOG.error("Não foi possível atualizar os dados do paciente " + paciente.getNome() + ": " + e.getMessage());

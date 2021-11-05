@@ -4,11 +4,11 @@ import br.com.duyllyan.reservaconsultas.database.Conexao;
 import br.com.duyllyan.reservaconsultas.database.exception.DatabaseException;
 import br.com.duyllyan.reservaconsultas.model.dao.IDao;
 import br.com.duyllyan.reservaconsultas.model.entities.Endereco;
-import br.com.duyllyan.reservaconsultas.model.entities.Paciente;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EnderecoDao implements IDao<Endereco> {
@@ -25,18 +25,9 @@ public class EnderecoDao implements IDao<Endereco> {
             "(endereco_rua, endereco_numero, endereco_bairro, endereco_cidade, endereco_estado) " +
             "VALUES " +
             "(?, ?, ?, ?, ?)";
-    private final String SQL_SELECT_BY_ID = "SELECT FROM clinica.enderecos WHERE endereco_id = ?;";
-    private final String SQL_SELECT_ALL = "SELECT " +
-            "p.*, " +
-            "e.endereco_rua, " +
-            "e.endereco_numero, " +
-            "e.endereco_bairro, " +
-            "e.endereco_cidade, " +
-            "e.endereco_estado, " +
-            "FROM clinica.pacientes AS p" +
-            "INNER JOIN clinica.enderecos AS e" +
-            "ON p.endereco_id = e.endereco_id" +
-            "ORDER BY paciente_id;";
+    private static final String SQL_DELETE = "DELETE FROM clinica.enderecos WHERE endereco_id = ?;";
+    private static final String SQL_SELECT_BY_ID = "SELECT * FROM clinica.enderecos WHERE endereco_id = ?;";
+    private static final String SQL_SELECT_ALL = "SELECT * FROM clinica.enderecos;";
 
 
     private Connection connection;
@@ -87,6 +78,9 @@ public class EnderecoDao implements IDao<Endereco> {
             statement.setString(3, endereco.getBairro());
             statement.setString(4, endereco.getCidade());
             statement.setString(5, endereco.getEstado());
+            statement.setInt(6, endereco.getId());
+
+            statement.executeUpdate();
             LOG.info("O registro do endereço " + endereco + " foi atualizado");
         } catch (SQLException e) {
             LOG.error("Não foi possível atualizar o endereço " + endereco + ": " + e.getMessage());
@@ -98,7 +92,20 @@ public class EnderecoDao implements IDao<Endereco> {
 
     @Override
     public void deleteByID(Integer id) {
+        PreparedStatement statement = null;
+        LOG.debug("Excluindo endereço de id: " + id);
+        try {
+            statement = connection.prepareStatement(SQL_DELETE);
+            statement.setInt(1, id);
 
+            statement.executeUpdate();
+            LOG.info("Endereço excluído");
+        } catch (SQLException e) {
+            LOG.error("Não foi possível excluir o endereço de id: " + id + ": " + e.getMessage());
+            throw new DatabaseException(e.getMessage());
+        } finally {
+            Conexao.closeStatement(statement);
+        }
     }
 
     @Override
@@ -127,7 +134,27 @@ public class EnderecoDao implements IDao<Endereco> {
 
     @Override
     public List<Endereco> selectAll() {
-        return null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        LOG.debug("Listando endereços");
+        try {
+            statement = connection.prepareStatement(SQL_SELECT_ALL);
+            resultSet = statement.executeQuery();
+
+            List<Endereco> enderecos = new ArrayList<>();
+
+            while (resultSet.next()) {
+                Endereco endereco = getEndereco(resultSet);
+                enderecos.add(endereco);
+            }
+            return enderecos;
+        } catch (SQLException e) {
+            LOG.error("Erro na listagem dos endereços: " + e.getMessage());
+            throw new DatabaseException(e.getMessage());
+        } finally {
+            Conexao.closeResultSet(resultSet);
+            Conexao.closeStatement(statement);
+        }
     }
 
     private Endereco getEndereco(ResultSet resultSet) throws SQLException {

@@ -1,6 +1,5 @@
 package br.com.duyllyan.reservaconsultas.database;
 
-import br.com.duyllyan.reservaconsultas.database.exception.DatabaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
