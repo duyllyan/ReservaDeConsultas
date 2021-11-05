@@ -24,3 +24,4 @@ A aplicação deve ser desenvolvida em camadas:
 **IMPORTANTE: Em pelo menos 1 (uma) das visualizações (telas) invoque APIs com JavaScript.**
 
 * [Parte 1](./src/main/resources/parte1.md)
+* [Checkpoint 1](./src/main/resources/checkpoint1.md)

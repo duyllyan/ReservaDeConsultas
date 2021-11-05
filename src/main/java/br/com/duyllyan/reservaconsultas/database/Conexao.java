@@ -28,7 +28,6 @@ public class Conexao {
                 log.error("Erro no estabelecimento da conexão com o banco de dados: " + e.getMessage());
                 throw new DatabaseException(e.getMessage());
             }
-
         }
         return connection;
     }

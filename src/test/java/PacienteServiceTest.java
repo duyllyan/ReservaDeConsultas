@@ -4,6 +4,7 @@ import br.com.duyllyan.reservaconsultas.model.entities.Paciente;
 import br.com.duyllyan.reservaconsultas.model.service.EnderecoService;
 import br.com.duyllyan.reservaconsultas.model.service.PacienteService;
 import br.com.duyllyan.reservaconsultas.model.service.factory.ServiceFactory;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PacienteServiceTest {
+
     EnderecoService enderecoService;
     PacienteService pacienteService;
     Endereco endereco1;
@@ -25,7 +27,10 @@ public class PacienteServiceTest {
         ClinicaDatabase.getInstance();
         enderecoService = ServiceFactory.createEnderecoService();
         pacienteService = ServiceFactory.createPacienteService();
+    }
 
+    @Test
+    void searchByID() {
         endereco1 = new Endereco("Rua Jasmim", 18, "Jardim das Flores", "Araguaína", "TO");
         endereco2 = new Endereco("Rua Tulipa", 22, "Jardim das Flores", "Araguaína", "TO");
 
@@ -37,10 +42,6 @@ public class PacienteServiceTest {
 
         pacienteService.insertPaciente(paciente1);
         pacienteService.insertPaciente(paciente2);
-    }
-
-    @Test
-    void searchByID() {
         assertEquals(2, pacienteService.selectPacienteByID(2).getId());
     }
 
